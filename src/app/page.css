@@ -119,11 +119,12 @@
   transform: translate(-50%, -50%) scale(0.01);
 
   background:
-    radial-gradient(circle at 32% 28%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.75) 5%, transparent 14%),
-    radial-gradient(circle at 70% 30%, rgba(0,230,255,0.95), transparent 28%),
-    radial-gradient(circle at 35% 72%, rgba(255,230,0,0.95), transparent 26%),
-    radial-gradient(circle at 70% 75%, rgba(255,0,120,0.9), transparent 28%),
-    conic-gradient(from 0deg, #ff006e, #8338ec, #3a86ff, #00f5d4, #ffee32, #ff006e);
+    radial-gradient(circle at 45% 45%, rgba(255,255,255,1) 0%, rgba(255,245,210,0.95) 6%, transparent 14%),
+    radial-gradient(circle at 35% 30%, rgba(255,80,20,0.95), transparent 28%),
+    radial-gradient(circle at 70% 38%, rgba(255,230,60,0.95), transparent 30%),
+    radial-gradient(circle at 45% 75%, rgba(255,0,100,0.85), transparent 32%),
+    radial-gradient(circle at 72% 72%, rgba(80,180,255,0.8), transparent 34%),
+    conic-gradient(from 0deg, #ff2a00, #ffcc00, #ffffff, #00d9ff, #7b2cff, #ff006e, #ff2a00);
 
   box-shadow:
     0 0 35px rgba(255,255,255,0.75),
@@ -133,8 +134,9 @@
 
   animation:
     sphereBirth 1.4s cubic-bezier(.15,.9,.2,1.15) forwards,
-    spherePulse 2.4s ease-in-out infinite 1.4s,
-    sphereColors 7s linear infinite;
+    spherePulse 2.2s ease-in-out infinite 1.4s,
+    sphereColors 5s linear infinite;
+    universeExpansion 4.5s ease-in forwards 3.2s;
 }
 
 .sphere::before {
@@ -158,6 +160,84 @@
   filter: blur(18px);
   z-index: -1;
   animation: auraPulse 2.2s ease-in-out infinite;
+}
+.plasma {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.plasmaOne {
+  background:
+    repeating-conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(255,255,255,0.65) 8deg,
+      transparent 16deg,
+      rgba(255,80,0,0.55) 26deg,
+      transparent 38deg
+    );
+  filter: blur(7px);
+  animation: plasmaSpin 5s linear infinite;
+}
+
+.plasmaTwo {
+  inset: 16%;
+  background:
+    repeating-radial-gradient(
+      circle,
+      transparent 0px,
+      rgba(255,255,255,0.28) 7px,
+      transparent 15px,
+      rgba(0,220,255,0.25) 24px
+    );
+  filter: blur(4px);
+  animation: plasmaSpinReverse 7s linear infinite;
+}
+
+.plasmaThree {
+  inset: 2%;
+  background:
+    conic-gradient(
+      from 180deg,
+      transparent,
+      rgba(255,255,255,0.45),
+      transparent,
+      rgba(255,0,120,0.45),
+      transparent,
+      rgba(255,220,0,0.45),
+      transparent
+    );
+  filter: blur(10px);
+  animation: plasmaWobble 3.5s ease-in-out infinite;
+}
+
+.whiteFlash {
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  z-index: 30;
+  pointer-events: none;
+  animation: whiteFlash 2.2s ease forwards 6.2s;
+}
+
+.beginText {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  color: #111;
+  font-size: clamp(44px, 8vw, 120px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  pointer-events: none;
+  animation: beginText 2s ease forwards 7.2s;
 }
 
 @keyframes starFlicker {
@@ -261,4 +341,40 @@ transform: translateX(-50%) scale(1);
     opacity: 0.95;
     transform: scale(1.12);
   }
+}
+@keyframes plasmaSpin {
+  from { transform: rotate(0deg) scale(1); }
+  to { transform: rotate(360deg) scale(1.08); }
+}
+
+@keyframes plasmaSpinReverse {
+  from { transform: rotate(360deg) scale(1.12); }
+  to { transform: rotate(0deg) scale(0.95); }
+}
+
+@keyframes plasmaWobble {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.55; }
+  50% { transform: scale(1.18) rotate(25deg); opacity: 0.95; }
+}
+
+@keyframes universeExpansion {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(12);
+    opacity: 1;
+  }
+}
+
+@keyframes whiteFlash {
+  0% { opacity: 0; }
+  45% { opacity: 0.92; }
+  100% { opacity: 1; }
+}
+
+@keyframes beginText {
+  to { opacity: 1; }
 }

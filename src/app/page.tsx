@@ -84,7 +84,13 @@ export default function HomePage() {
           }
         >
           <div className="shockwave" />
-          <div className="sphere" />
+          <div className="sphere">
+            <span className="plasma plasmaOne" />
+            <span className="plasma plasmaTwo" />
+            <span className="plasma plasmaThree" />
+          </div>
+          <div className="whiteFlash" />
+          <div className="beginText">Начало</div>
         </div>
       )}
     </main>
