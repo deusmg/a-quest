@@ -135,7 +135,7 @@
   animation:
     sphereBirth 1.4s cubic-bezier(.15,.9,.2,1.15) forwards,
     spherePulse 2.2s ease-in-out infinite 1.4s,
-    sphereColors 5s linear infinite;
+    sphereColors 5s linear infinite,
     universeExpansion 4.5s ease-in forwards 3.2s;
 }
 
