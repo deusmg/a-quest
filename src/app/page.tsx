@@ -54,8 +54,8 @@ export default function HomePage() {
               width: `${star.size}px`,
               height: `${star.size}px`,
               opacity: star.opacity,
-              animationDelay: ${star.delay}s,
-              animationDuration: ${star.duration}s,
+              animationDelay: `${star.delay}s`,
+              animationDuration: `${star.duration}s`,
             }}
           />
         ))}
