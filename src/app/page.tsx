@@ -7,6 +7,7 @@ import { animated, useSpring } from "@react-spring/three";
 import { extend } from "@react-three/fiber";
 import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
+import { config } from "process";
 
 const ColorSphereMaterial = shaderMaterial(
   { uTime: 0 },
@@ -39,8 +40,42 @@ const ColorSphereMaterial = shaderMaterial(
   color = mix(color, colorC, wave2 * 0.5 + 0.5);
   color = mix(color, colorD, wave3 * 0.35 + 0.35);
 
-  float glow 
+  float glow = 0.65 + 0.35 * sin(uTime * 3.0);
+  
+  gl_FragColor = vec4(color + glow, 1.0);
 }
-  `
+`
+);
+
+extend({ ColorSphereMaterial });
+
+declare module "@react-three/fiber" {
+  interface ThreeElements {
+    colorSphereMaterial: React.JSX.IntrinsicElements["shaderMaterial"];
+  }
+}
+
+function LivingSphere() {
+  const materialRef = useRef<any>(null);
+
+  const { scale } = useSpring({
+    from: { scale: 0.01 },
+    to: { scale: 1 },
+    config: { tension: 70, friction: 12 }, 
+  });
+
+  useFrame((state) => {
+    if (materialRef.current) {
+      materialRef.current.uTime = state.clock.elapsedTime;
+    }
+  });
+
+  return (
+    <animated.msh scale={scale}>
+      <sphereGeometry args={[1.7, 128, 128]} />
+      <colorSphereMaterial ref={materialRef} />
+    </animated.msh>
+  );
+}
   
 
