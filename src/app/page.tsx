@@ -1,66 +1,37 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, shaderMaterial } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { animated, useSpring } from "@react-spring/three";
+import { extend } from "@react-three/fiber";
+import { useMemo, useRef, useState } from "react";
+import * as THREE from "three";
+
+const ColorSphereMaterial = shaderMaterial(
+  { uTime: 0 },
+  `
+  varying vec2 vUv;
+  varying vec3 vPosition;
+
+  void main() {
+    vUv = uv;
+    vPosition = position;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+   }
+  `,
+  `
+  unform float uTime;
+  varying vec2 vUv;
+  varying vec3 vPosition;
+
+  void main() {
+	float wave1 = sin(vPosition.x * 5.0 + uTime * 2.0);
+	float wave2 = cos(vPosition.y * 7.0 - uTime * 1.6);
+	float wave3 = sin((vPosition.x = vPosition.y - vPosition.z) * 4.0 + uTime * 2.8);
+
+	
 }
+  `
+  
+
