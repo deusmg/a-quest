@@ -66,8 +66,8 @@ export default function HomePage() {
             onClick={() => setActivated(true)}
             aria-label="Скрытая точка"
             style={{
-              left: ${secret.left}%,
-              top: ${secret.top}%,
+              left: `${secret.left}%`,
+              top: `${secret.top}%`,
             }}
           />
         )}
@@ -78,8 +78,8 @@ export default function HomePage() {
           className="bigBang"
           style={
             {
-              "--origin-x": ${secret.left}%,
-              "--origin-y": ${secret.top}%,
+              "--origin-x": `${secret.left}%`,
+              "--origin-y": `${secret.top}%`,
             } as React.CSSProperties
           }
         >
