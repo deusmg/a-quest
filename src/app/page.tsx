@@ -174,10 +174,8 @@ function Stars() {
     <points>
       <bufferGeometry>
         <bufferAttribute
-          attach="attributes-position"
-          count={positions.length / 3}
-          array={positions}
-          itemSize={3}
+        attach="attributes-position"
+        args={[positions, 3]}
         />
       </bufferGeometry>
 
