@@ -2,23 +2,40 @@
     position: fixed;
     inset: 0;
     overflow: hidden;
-    background: radial-gradient(circle at center, #050510 0%, #000 70%);
+    background:
+    radial-gradient(circle at 50% 50%, rgba(45,60,120,0.16), transparent 30%),
+    radial-gradient(circle at 20% 80%, rgba(120,30,255,0.12), transparent 35%),
+    radial-gradient(circle at 80% 20%, rgba(0,140,255,0.08), transparent 35%),
+    #000;
+}
+
+.levelOne::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px);
+    background-size: 120px 120px;
+    opacity: 0.025;
+    animation: drift 80s linear infinite;
 }
 
 .introText {
     position: absolute;
-    top: 14%;
+    z-index: 10;
+    top: 12%;
     left: 50%;
     transform: translateX(-50%);
-    width: 92%;
+    width: min(1100px, 90%);
     text-align: center;
-    font-size: clamp(24px, 4vw, 52px);
-    line-height: 1.3;
-    color: rgba(255, 255, 255, 0.92);
+    font-size: clamp(24px, 3vw, 58px);
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: rgba(255, 255, 255, 0.9);
     text-shadow:
     0 0 12px rgba(255, 255, 255, 0.25),
-    0 0 40px rgba(100, 100, 255, 0.15);
-    z-index: 5;
+    0 0 40px rgba(100, 100, 255, 0.2);
+    animation: textBreath 5s ease-in-out infinite;
 }
 
 .stars {
@@ -31,18 +48,25 @@
     border: none;
     border-radius: 50%;
     padding: 0;
-    background: rgba(255, 255, 255, 0.65);
-    box-shadow: 0 0 6px rgba(255, 255, 255, 0.25);
-    animation: flicker infinite alternate ease-in-out;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow:
+        0 0 6px rgba(255, 255, 255, 0.3),
+        0 0 12px rgba(120, 120, 255, 0.12);
+    animation-name: flicker;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
 }
 
 .secretStar {
-    background: rgba(100, 100, 255, 0.12);
-    box-shadow: 0 0 2px rgba(100, 100, 255, 0.08);
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.22);
+
+    cursor: pointer;
 }
 
 .secretStar:hover {
-    background: rgba(255, 255, 255, 0.35);
+    opacity: 1;
 }
 
 .sphereWrap {
@@ -61,7 +85,27 @@ canvas {
         transform: scale(0.7);
     }
     to {
-        opacity: 0.9;
-        transform: scale(1.4);
+        opacity: 0.95;
+        transform: scale(1.6);
+    }
+}
+
+@keyframes textBreath {
+    0%, 100% {
+        opacity: 0.72;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.015);
+    }
+}
+
+@keyframes drift {
+    from {
+        transform: translateY(0px);
+    }
+    to {
+        transform: translateY(-120px);
     }
 }

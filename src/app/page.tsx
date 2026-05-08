@@ -101,7 +101,7 @@ export default function LevelOne() {
   const [activated, setActivated] = useState(false);
 
   const stars = useMemo(() => {
-    return Array.from({ length: 420 }, (_, i) => ({
+    return Array.from({ length: 700 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
       top: Math.random() * 100,
