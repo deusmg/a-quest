@@ -29,8 +29,17 @@ const ColorSphereMaterial = shaderMaterial(
 	float wave1 = sin(vPosition.x * 5.0 + uTime * 2.0);
 	float wave2 = cos(vPosition.y * 7.0 - uTime * 1.6);
 	float wave3 = sin((vPosition.x = vPosition.y - vPosition.z) * 4.0 + uTime * 2.8);
-
+  
+  vec3 colorA = vec3(1.0, 0.05, 0.45);
+  vec3 colorB = vec3(0.05, 0.65, 1.0);
+  vec3 colorC = vec3(1.0, 0.85, 0.05);
+  vec3 colorD = vec3(0.35, 0.0, 1.0);
 	
+  vec3 color = mix(colorA, colorB, wave1 * 0.5 + 0.5);
+  color = mix(color, colorC, wave2 * 0.5 + 0.5);
+  color = mix(color, colorD, wave3 * 0.35 + 0.35);
+
+  float glow 
 }
   `
   
