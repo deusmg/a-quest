@@ -71,10 +71,10 @@ function LivingSphere() {
   });
 
   return (
-    <animated.msh scale={scale}>
+    <animated.mesh scale={scale}>
       <sphereGeometry args={[1.7, 128, 128]} />
       <colorSphereMaterial ref={materialRef} />
-    </animated.msh>
+    </animated.mesh>
   );
 }
 
@@ -90,7 +90,7 @@ function SphereScene() {
         <Bloom intensity={2.4} luminanceTheshold={0.1} luminanceSmoothing={0.2} />
       </EffectComposer>
 
-      <OrbitControls enableZoom={false} enablePlan={false} autoRotate autoRotateSpeed={0.7} />
+      <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.7} />
     </Canvas>
   );
 }
