@@ -88,6 +88,11 @@ export default function HomePage() {
             <span className="plasma plasmaOne" />
             <span className="plasma plasmaTwo" />
             <span className="plasma plasmaThree" />
+            <span className="solarSurface" />
+            <span className="flare flareOne" />
+            <span className="flare flareTwo" />
+            <span className="flare flareThree" />
+            <span className="hotCore" />
           </div>
           <div className="whiteFlash" />
           <div className="beginText">Начало</div>

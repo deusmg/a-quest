@@ -117,20 +117,21 @@
   height: min(38vw, 360px);
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0.01);
+  overflow: visible;
 
   background:
-    radial-gradient(circle at 45% 45%, rgba(255,255,255,1) 0%, rgba(255,245,210,0.95) 6%, transparent 14%),
-    radial-gradient(circle at 35% 30%, rgba(255,80,20,0.95), transparent 28%),
-    radial-gradient(circle at 70% 38%, rgba(255,230,60,0.95), transparent 30%),
-    radial-gradient(circle at 45% 75%, rgba(255,0,100,0.85), transparent 32%),
-    radial-gradient(circle at 72% 72%, rgba(80,180,255,0.8), transparent 34%),
-    conic-gradient(from 0deg, #ff2a00, #ffcc00, #ffffff, #00d9ff, #7b2cff, #ff006e, #ff2a00);
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,1) 0%, rgba(255,236,170,0.95) 7%, transparent 18%),
+    radial-gradient(circle at 38% 36%, rgba(255,180,40,0.95), transparent 30%),
+    radial-gradient(circle at 66% 62%, rgba(180,20,0,0.95), transparent 36%),
+    radial-gradient(circle at 70% 28%, rgba(255,70,0,0.85), transparent 34%),
+    radial-gradient(circle at 50% 50%, #ffb000 0%, #ff4a00 38%, #9b0000 72%, #230000 100%);
 
   box-shadow:
-    0 0 35px rgba(255,255,255,0.75),
-    0 0 90px rgba(80,120,255,0.9),
-    0 0 160px rgba(255,0,180,0.5),
-    inset 0 0 45px rgba(255,255,255,0.55);
+    inset -42px -48px 70px rgba(40,0,0,0.75),
+    inset 28 24 55px rgba(255,255,255,0.55),
+    0 0 50px rgba(255,160,40,0.85),
+    0 0 120px rgba(255,70,0,0.7),
+    0 0 220px rgba(255,0,0,0.35);
 
   animation:
     sphereBirth 1.4s cubic-bezier(.15,.9,.2,1.15) forwards,
@@ -169,6 +170,75 @@
   opacity: 0.8;
   pointer-events: none;
 }
+
+.solarSurface {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(
+      from 20deg,
+      rgba(255,255,255,0.18) 0deg,
+      rgba(255,220,60,0.38) 8deg,
+      rgba(255,70,0,0.18) 18deg,
+      transparent 32deg
+    ),
+    repeating-radial-gradient(
+      circle at 45% 40%,
+      transparent 0px,
+      rgba(255,255,255,0.16) 8px,
+      rgba(255,60,0,0.18) 18px,
+      transparent 34px
+    );
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  filter: blur(3px);
+  animation: solarBoil 5s linear infinite;
+}
+
+.hotCore {
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,220,80,0.65) 30%, transparent 70%);
+  filter: blur(12px);
+  opacity: 0.75;
+  animation: corePulse 1.8s ease-in-out infinite;
+}
+
+.flare {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34%;
+  height: 10%;
+  border-radius: 999px;
+  transform-origin: 0% 50%;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,210,0.95),
+    rgba(255,160,0,0.75),
+    rgba(255,0,0,0)
+  );
+  filter: blur(6px);
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.flareOne {
+  animation: flareBurst 4.5s ease-in-out infinite 0.4s;
+}
+
+.flareTwo {
+  transform: rotate(125deg);
+  animation: flareBurstTwo 5.8s ease-in-out infinite 1.6s;
+}
+
+.flareThree {
+  transform: rotate(250deg);
+  animation: flareBurstThree 6.4s ease-in-out infinite 2.5s;
+}
+
 
 .plasmaOne {
   background:
@@ -377,4 +447,79 @@ transform: translateX(-50%) scale(1);
 
 @keyframes beginText {
   to { opacity: 1; }
+}
+
+@keyframes solarBoil {
+  from {
+    transform: rotate(0deg) scale(1.02);
+    filter: blur(3px) hue-rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) scale(1.08);
+    filter: blur(4px) hue-rotate(25deg);
+  }
+}
+
+@keyframes corePulse {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.95;
+  }
+}
+
+@keyframes flareBurst {
+  0%, 72%, 100% {
+    opacity: 0;
+    transform: rotate(20deg) scaleX(0.2) translateX(20%);
+  }
+
+  82% {
+    opacity: 0.95;
+    transform: rotate(20deg) scaleX(1.9) translateX(42%);
+  }
+
+  92% {
+    opacity: 0.25;
+    transform: rotate(20deg) scaleX(2.7) translateX(70%);
+  }
+}
+
+@keyframes flareBurstTwo {
+  0%, 65%, 100% {
+    opacity: 0;
+    transform: rotate(135deg) scaleX(0.2) translateX(20%);
+  }
+
+  78% {
+    opacity: 0.85;
+    transform: rotate(135deg) scaleX(1.7) translateX(42%);
+  }
+
+  90% {
+    opacity: 0.2;
+    transform: rotate(135deg) scaleX(2.4) translateX(68%);
+  }
+}
+
+@keyframes flareBurstThree {
+  0%, 70%, 100% {
+    opacity: 0;
+    transform: rotate(265deg) scaleX(0.2) translateX(20%);
+  }
+
+  83% {
+    opacity: 0.9;
+    transform: rotate(265deg) scaleX(1.8) translateX(40%);
+  }
+
+  94% {
+    opacity: 0.18;
+    transform: rotate(265deg) scaleX(2.5) translateX(72%);
+  }
 }
