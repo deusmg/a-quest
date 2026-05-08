@@ -49,10 +49,10 @@ export default function HomePage() {
             key={star.id}
             className="star"
             style={{
-              left: ${star.left}%,
-              top: ${star.top}%,
-              width: ${star.size}px,
-              height: ${star.size}px,
+              left: `${star.left}%`,
+              top: `${star.top}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
               opacity: star.opacity,
               animationDelay: ${star.delay}s,
               animationDuration: ${star.duration}s,
