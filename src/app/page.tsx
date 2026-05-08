@@ -77,5 +77,81 @@ function LivingSphere() {
     </animated.msh>
   );
 }
-  
 
+function SphereScene() {
+  return (
+    <Canvas camera={{ position: [0, 0, 5], fov: 45}}>
+      <ambientLight intensity={0.6} />
+      <pointLight position={[3, 3, 3]} intensity={3} />
+
+      <LivingSphere />
+
+      <EffectComposer>
+        <Bloom intensity={2.4} luminanceTheshold={0.1} luminanceSmoothing={0.2} />
+      </EffectComposer>
+
+      <OrbitControls enableZoom={false} enablePlan={false} autoRotate autoRotateSpeed={0.7} />
+    </Canvas>
+  );
+}
+
+export default function LevelOne() {
+  const [activated, setActivated] = useState(false);
+
+  const stars = useMemo(() => {
+    return Array.from({ length: 420 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      size: Math.random() * 2.2 + 0.6,
+      opacity: Math.random() * 0.55 + 0.12,
+      delay: Math.random() * 4,
+      duration: Math.random() * 3 + 1.5,
+    }));
+  }, []);
+
+  const secretStarIndex = 173;
+
+  return (
+    <main className="levelOne">
+      {!activated && (
+        <>
+          <div className="introText">
+            Вселенная была невообразимо горячей и плотной,
+            <br />
+            размером меньше атома.
+          </div>
+
+          <div className="stars">
+            {stars.map((star, index) => {
+              const isSecret = index === secretStarIndex;
+              return (
+                <button
+                key={star.id}
+                className={isSecret ? "star secretStar" : "star"}
+                onClick={isSecret ? () => setActivated(true) : undefined}
+                aria-label={isSecret ? "Скрытая точка" : undefined}
+                style={{
+                  left: `${star.left}`,
+                  top: `${star.top}`,
+                  width: `${star.size}px`,
+                  height: `${star.size}px`,
+                  opacity: star.opacity,
+                  animationDelay: `${star.delay}s`,
+                  animationDuration: `${star.duration}s`,
+                }}
+                />
+              );
+            })}
+          </div>
+        </>
+      )}
+      {activated && (
+        <div className="sphereWrap">
+          <SphereScene />
+        </div>
+      )}
+    </main>
+  );
+
+  
