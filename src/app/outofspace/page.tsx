@@ -1,15 +1,83 @@
 "use client";
 
-import {Canvas} from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import { useRef } from "react";
+import * as THREE from "three";
+
+type StarData = {
+	position: [number, number, number];
+	color: string;
+	size: number;
+};
+
+function AnimatedStar() {
+  const meshRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+   if (meshRef.current) {
+	const time = state.clock.elapsedTime;
+	const pulse = 1 + Math.sin(time * 3) * 0.25;
+
+	meshRef.current.rotation.y += 0.02;
+	meshRef.current.scale.set(pulse, pulse, pulse);
+	}
+      });
+  return (
+	<mesh ref={meshRef} position={[0, 0,-2]}>
+	<sphereGeometry args={[0.12, 16, 16]} />
+	<meshBasicMaterial color="white" />
+	
+	<mesh position={[0.25, 0, 0]}>
+	 <sphereGeometry args={[0.03, 8, 8]} />
+	 <meshBasicMaterial color="orange" />
+	</mesh>
+
+	</mesh>
+	);	
+	}
+
+function Star({ star }: { star: StarData}) {
+   return (
+	<mesh position={star.position}>
+	 <sphereGeometry args={[star.size, 32, 32]} />
+	 <meshBasicMaterial color={star.color} />
+	</mesh>
+  );
+}
+
 
 export default function OutOfSpacePage() {
-  return (
+
+    const starColors = [
+    "#ffffff",
+    "#ffe9c4",
+    "#d4fbff",
+    "#fff6aa",
+    "#ffddb4",
+    ];	   
+    const stars = Array.from({ length: 40 }, () => ({
+	position: [
+	(Math.random() - 0.5) * 10,
+	(Math.random() - 0.5) * 10,
+	-Math.random() * 10,
+	] as [number, number, number],
+
+	color: 
+	starColors[
+	  Math.floor(Math.random() * starColors.length)
+	],
+	size: Math.random() * 0.12 + 0.02,	  
+	}));
+    return (
     <main style={{ width: "100vw", height: "100vh", background: "black" }}>
 	<Canvas>
-	  <mesh>
-	   <sphereGeometry args={[0.08, 16, 16]} />
-	   <meshBasicMaterial color="white" />	
-	  </mesh>
+
+	{stars.map((star, index) => (
+	  <Star key={index} star={star} />
+	))}
+	<AnimatedStar />
+	<OrbitControls />
 	</Canvas>
     </main> 
  );
