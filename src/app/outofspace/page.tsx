@@ -107,6 +107,8 @@ export default function OutOfSpacePage() {
 		enableZoom={false}
 		enablePan={false}
 		rotateSpeed={0.45}
+		enableDamping
+		dampingFactor={0.03}
 	/>
 	</Canvas>
     </main>
