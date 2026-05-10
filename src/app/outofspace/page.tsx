@@ -18,7 +18,7 @@ function AnimatedStar() {
   useFrame((state) => {
    if (meshRef.current) {
 	const time = state.clock.elapsedTime;
-	const pulse = 1 + Math.sin(time * 2 + star.phase) * 0.3;
+	const pulse = 1 + Math.sin(time * 3) * 0.25;
 
 	meshRef.current.rotation.y += 0.02;
 	meshRef.current.scale.set(pulse, pulse, pulse);
@@ -40,15 +40,31 @@ function AnimatedStar() {
 
 function Star({ star }: { star: StarData}) {
 
-	const meshRef = useRef<THREE.Mesh>(null);
+	const meshRef = useRef<THREE.Mesh>(null)
+
+	useFrame((state) => {
+		if (meshRef.current) {
+
+			const time = state.clock.elapsedTime;
+
+			const pulse = 1 + Math.sin(time * 2 + star.phase) * 0.3;
+
+			meshRef.current.scale.set(
+				pulse,
+				pulse,
+				pulse
+			);
+		}
+	});
 
 	return (
-	<mesh ref={meshRef}
-		position={star.position}
-	>
-	 <sphereGeometry args={[star.size, 32, 32]} />
-	 <meshBasicMaterial color={star.color} />
-	</mesh>
+		<mesh
+			ref={meshRef}
+			position={star.position}
+		>
+	 		<sphereGeometry args={[star.size, 32, 32]} />
+	 		<meshBasicMaterial color={star.color} />
+		</mesh>
   );
 }
 
