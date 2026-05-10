@@ -78,7 +78,7 @@ export default function OutOfSpacePage() {
     "#fff6aa",
     "#ffddb4",
     ];
-    const stars = Array.from({ length: 10000 }, () => ({
+    const stars = Array.from({ length: 5000 }, () => ({
 	position: [
 	(Math.random() - 0.5) * 100,
 	(Math.random() - 0.5) * 100,
@@ -103,7 +103,11 @@ export default function OutOfSpacePage() {
 	  <Star key={index} star={star} />
 	))}
 	<AnimatedStar />
-	<OrbitControls />
+	<OrbitControls
+		enableZoom={false}
+		enablePan={false}
+		rotateSpeed={0.45}
+	/>
 	</Canvas>
     </main>
  );
