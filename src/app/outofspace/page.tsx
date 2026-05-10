@@ -27,14 +27,14 @@ function AnimatedStar() {
 	<mesh ref={meshRef} position={[0, 0,-2]}>
 	<sphereGeometry args={[0.12, 16, 16]} />
 	<meshBasicMaterial color="white" />
-	
+
 	<mesh position={[0.25, 0, 0]}>
 	 <sphereGeometry args={[0.03, 8, 8]} />
 	 <meshBasicMaterial color="orange" />
 	</mesh>
 
 	</mesh>
-	);	
+	);
 	}
 
 function Star({ star }: { star: StarData}) {
@@ -55,19 +55,19 @@ export default function OutOfSpacePage() {
     "#d4fbff",
     "#fff6aa",
     "#ffddb4",
-    ];	   
-    const stars = Array.from({ length: 40 }, () => ({
+    ];
+    const stars = Array.from({ length: 400 }, () => ({
 	position: [
-	(Math.random() - 0.5) * 10,
-	(Math.random() - 0.5) * 10,
-	-Math.random() * 10,
+	(Math.random() - 0.5) * 100,
+	(Math.random() - 0.5) * 100,
+	-Math.random() * 100,
 	] as [number, number, number],
 
-	color: 
+	color:
 	starColors[
 	  Math.floor(Math.random() * starColors.length)
 	],
-	size: Math.random() * 0.12 + 0.02,	  
+	size: Math.random() * 0.12 + 0.02,
 	}));
     return (
     <main style={{ width: "100vw", height: "100vh", background: "black" }}>
@@ -79,6 +79,6 @@ export default function OutOfSpacePage() {
 	<AnimatedStar />
 	<OrbitControls />
 	</Canvas>
-    </main> 
+    </main>
  );
 }
