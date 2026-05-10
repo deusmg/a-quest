@@ -9,6 +9,7 @@ type StarData = {
 	position: [number, number, number];
 	color: string;
 	size: number;
+	phase: number;
 };
 
 function AnimatedStar() {
@@ -17,7 +18,7 @@ function AnimatedStar() {
   useFrame((state) => {
    if (meshRef.current) {
 	const time = state.clock.elapsedTime;
-	const pulse = 1 + Math.sin(time * 3) * 0.25;
+	const pulse = 1 + Math.sin(time * 2 + star.phase) * 0.3;
 
 	meshRef.current.rotation.y += 0.02;
 	meshRef.current.scale.set(pulse, pulse, pulse);
@@ -38,8 +39,13 @@ function AnimatedStar() {
 	}
 
 function Star({ star }: { star: StarData}) {
-   return (
-	<mesh position={star.position}>
+
+	const meshRef = useRef<THREE.Mesh>(null);
+
+	return (
+	<mesh ref={meshRef}
+		position={star.position}
+	>
 	 <sphereGeometry args={[star.size, 32, 32]} />
 	 <meshBasicMaterial color={star.color} />
 	</mesh>
@@ -56,7 +62,7 @@ export default function OutOfSpacePage() {
     "#fff6aa",
     "#ffddb4",
     ];
-    const stars = Array.from({ length: 400 }, () => ({
+    const stars = Array.from({ length: 1000 }, () => ({
 	position: [
 	(Math.random() - 0.5) * 100,
 	(Math.random() - 0.5) * 100,
@@ -67,7 +73,11 @@ export default function OutOfSpacePage() {
 	starColors[
 	  Math.floor(Math.random() * starColors.length)
 	],
+
 	size: Math.random() * 0.12 + 0.02,
+
+	phase: Math.random() * Math.PI * 2
+
 	}));
     return (
     <main style={{ width: "100vw", height: "100vh", background: "black" }}>
