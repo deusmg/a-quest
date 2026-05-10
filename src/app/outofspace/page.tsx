@@ -82,7 +82,7 @@ export default function OutOfSpacePage() {
 	position: [
 	(Math.random() - 0.5) * 100,
 	(Math.random() - 0.5) * 100,
-	-Math.random() * 100,
+	(Math.random() - 0.5) * 100,
 	] as [number, number, number],
 
 	color:
