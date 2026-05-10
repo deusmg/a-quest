@@ -78,7 +78,7 @@ export default function OutOfSpacePage() {
     "#fff6aa",
     "#ffddb4",
     ];
-    const stars = Array.from({ length: 1000 }, () => ({
+    const stars = Array.from({ length: 10000 }, () => ({
 	position: [
 	(Math.random() - 0.5) * 100,
 	(Math.random() - 0.5) * 100,
