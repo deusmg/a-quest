@@ -1,8 +1,8 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import { useMemo, useRef } from "react";
+import { OrbitControls, Text } from "@react-three/drei";
+import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 type StarData = {
@@ -12,31 +12,110 @@ type StarData = {
 	phase: number;
 };
 
-function AnimatedStar() {
+function AnimatedStar({
+	observeProgress,
+	onObserve,
+	}: {
+	observeProgress: number;
+	onObserve: (value: number) => void;
+	}) {
+
   const meshRef = useRef<THREE.Mesh>(null);
+  const glowRef = useRef<THREE.Mesh>(null);
+
+  const screenPosition = new THREE.Vector3();
+	
+  const observeStartRef = useRef<number | null>(null);
 
   useFrame((state) => {
    if (meshRef.current) {
 	const time = state.clock.elapsedTime;
-	const pulse = 1 + Math.sin(time * 3) * 0.25;
+	
+	meshRef.current.getWorldPosition(screenPosition);
+	screenPosition.project(state.camera);
+	
+	const isInFrontOfCamera = screenPosition.z < 1;
+
+	const distanceFromCenter = Math.sqrt(
+	  screenPosition.x * screenPosition.x + 
+	  screenPosition.y * screenPosition.y
+	);
+
+	if (isInFrontOfCamera && distanceFromCenter < 0.05) {
+	 if (observeStartRef.current === null) {
+	   observeStartRef.current = time;
+	 }
+
+	 const observedTime = time - observeStartRef.current;
+	 const progress = Math.min(observedTime / 7, 1);
+
+	 onObserve(progress);
+	} else {
+	  observeStartRef.current = null;
+	  onObserve(0);
+ 	}	
+	
+	const pulseSpeed = 3 + observeProgress * 8;
+	const pulsePower = 0.25 + observeProgress * 0.8;	
+
+	const pulse = 1 + Math.sin(time * pulseSpeed) * pulsePower;
 
 	meshRef.current.rotation.y += 0.02;
-	meshRef.current.scale.set(pulse, pulse, pulse);
+
+	const awakeningScale = 1 + observeProgress * 1.8;
+	const finalScale = pulse * awakeningScale;
+
+	meshRef.current.scale.set(finalScale, finalScale, finalScale);
+
+	if (glowRef.current) {
+	 const glowPulse =
+	   1.4 +
+	   Math.sin(time * 2.2) * 0.25 +
+	   observeProgress * 1.2;
+
+	glowRef.current.scale.set(glowPulse, glowPulse, glowPulse);
+	}
 	}
       });
   return (
-	<mesh ref={meshRef} position={[0, 0,-2]}>
-	<sphereGeometry args={[0.12, 16, 16]} />
-	<meshBasicMaterial color="white" />
+	<mesh ref={meshRef} position={[0, 4, 14]}>
+	<sphereGeometry args={[0.08, 16, 16]} />
+	<meshBasicMaterial
+	 color={
+	 observeProgress > 0.66
+	? "#ffdd66"
+	: observeProgress > 0.33
+	 ? "#8fd3ff"
+	 : "#ffffff"
+	}
+	 />
 
-	<mesh position={[0.25, 0, 0]}>
-	 <sphereGeometry args={[0.03, 8, 8]} />
-	 <meshBasicMaterial color="orange" />
+	<mesh ref={glowRef}>
+	 <sphereGeometry args={[0.18, 32, 32]} />
+	 <meshBasicMaterial
+	  color="#8fd3ff"
+	  transparent	
+	  opacity={0.12 + observeProgress * 0.28}
+	 />
 	</mesh>
 
 	</mesh>
 	);
 	}
+
+function CosmicHint() {
+	return (
+	<Text
+	position={[0, 1.2, -3]}
+	fontSize={0.20}
+	color="#9fb7ff"
+	anchorX="center"
+	anchorY="middle"
+	>
+	Когда-то вселенная была меньше атома
+	</Text>
+	);
+}
 
 function Star({ star }: { star: StarData}) {
 
@@ -150,7 +229,9 @@ function StarField() {
 }
 
 export default function OutOfSpacePage() {
-
+    
+    const [observeProgress, setObserveProgress] = useState(0);    
+	
     const starColors = [
     "#ffffff",
     "#ffe9c4",
@@ -177,18 +258,33 @@ export default function OutOfSpacePage() {
 	}));
     return (
     <main style={{ width: "100vw", height: "100vh", background: "black" }}>
-	<Canvas>
+	
+	<div 
+	 style={{
+	 position: "fixed",
+	 left: 24,
+	 bottom: 24,
+	 zIndex: 10,
+	 color: "white",
+	 fontFamily: "monospace",
+	 }}
+	>
+	observe: {Math.round(observeProgress * 100)}%
+	</div>	
 
-	{stars.map((star, index) => (
-	  <Star key={index} star={star} />
-	))}
-	<AnimatedStar />
-	/* <StarField /> */
+	<Canvas>
+	
+	<CosmicHint />
+	<AnimatedStar
+	 observeProgress={observeProgress}
+	 onObserve={setObserveProgress}
+	 />
 	<OrbitControls
+		makeDefault
 		enableZoom={false}
 		enablePan={false}
 		rotateSpeed={0.45}
-		enableDamping
+		enableDamping={true}
 		dampingFactor={0.03}
 	/>
 	</Canvas>
